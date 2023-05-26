@@ -10,19 +10,20 @@ const overlay = document.querySelector('.overlay');
 overlay.classList.remove('active');
 console.log(overlay);
 
-const createRow = (elem, index = 1) => {
+const createRow = ({ elem }, index = 1) => {
+    const { id, title, category, units, count, price } = elem;
     return `
     <tr>
         <td class="table__cell">${index}</td>
         <td class="table__cell table__cell_left table__cell_name" data-id="24601654816512">
-            <span class="table__cell-id">id: ${elem.id}</span>
-            ${elem.title}
+            <span class="table__cell-id">id: ${id}</span>
+            ${title}
         </td>
-        <td class="table__cell table__cell_left">${elem.category}</td>
-        <td class="table__cell">${elem.units}</td>
-        <td class="table__cell">${elem.count}</td>
-        <td class="table__cell">$${elem.price}</td>
-        <td class="table__cell">$${elem.count * elem.price}</td>
+        <td class="table__cell table__cell_left">${category}</td>
+        <td class="table__cell">${units}</td>
+        <td class="table__cell">${count}</td>
+        <td class="table__cell">$${price}</td>
+        <td class="table__cell">$${count * price}</td>
         <td class="table__cell table__cell_btn-wrapper">
         <button class="table__btn table__btn_pic"></button>
         <button class="table__btn table__btn_edit"></button>
@@ -37,7 +38,7 @@ const renderGoods = (arr) => {
     const rowCount = tbody.rows.length;
 
     arr.forEach((elem, index) => {
-        const newRow = createRow(elem, rowCount + index + 1);
+        const newRow = createRow({elem}, rowCount + index + 1);
         html += newRow;
     })
 
