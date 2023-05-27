@@ -5,10 +5,21 @@ const modalHeading = document.querySelector('.modal__title');
 const modalForm = document.querySelector('.modal__form');
 const modalDiscountCheck = document.querySelector('.modal__checkbox');
 const modalDiscountInput = document.querySelector('.modal__input_discount');
-
 const overlay = document.querySelector('.overlay');
-overlay.classList.remove('active');
-console.log(overlay);
+
+const modalBtnClose = overlay.querySelector('.modal__close');
+modalBtnClose.addEventListener('click', () => {
+  overlay.classList.remove('active');
+});
+
+const btnAddGoods = document.querySelector('.panel__add-goods');
+btnAddGoods.addEventListener('click', () => {
+  overlay.classList.add('active');
+});
+
+overlay.addEventListener('click', () => {
+  overlay.classList.remove('active');
+})
 
 const createRow = ({ elem }, index = 1) => {
     const { id, title, category, units, count, price } = elem;
