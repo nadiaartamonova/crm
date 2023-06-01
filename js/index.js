@@ -6,6 +6,7 @@ const modalForm = document.querySelector('.modal__form');
 const modalDiscountCheck = document.querySelector('.modal__checkbox');
 const modalDiscountInput = document.querySelector('.modal__input_discount');
 const overlay = document.querySelector('.overlay');
+const tbody = document.querySelector('.table__body');
 
 const modalBtnClose = overlay.querySelector('.modal__close');
 modalBtnClose.addEventListener('click', () => {
@@ -24,7 +25,7 @@ overlay.addEventListener('click', () => {
 const createRow = ({ elem }, index = 1) => {
     const { id, title, category, units, count, price } = elem;
     return `
-    <tr>
+    <tr class="product">
         <td class="table__cell">${index}</td>
         <td class="table__cell table__cell_left table__cell_name" data-id="24601654816512">
             <span class="table__cell-id">id: ${id}</span>
@@ -45,7 +46,6 @@ const createRow = ({ elem }, index = 1) => {
 
 const renderGoods = (arr) => {
     let html = '';
-    const tbody = document.querySelector('.table__body');
     const rowCount = tbody.rows.length;
 
     arr.forEach((elem, index) => {
@@ -55,6 +55,25 @@ const renderGoods = (arr) => {
 
     tbody.insertAdjacentHTML("beforeend",html);
 }
+
+tbody.addEventListener('click', (e) => {
+  
+  if(e.target.closest('.table__btn_del')){
+    console.log(goods);
+    const trNode = e.target.parentNode.parentNode;
+    
+    const id = trNode.querySelector('.table__cell-id');
+    const idValue = parseInt(id.textContent.trim().replace(/\D/g, '')); 
+    const indexToRemove = goods.findIndex(item => item.id === idValue);
+
+    if (indexToRemove !== -1) {
+      goods.splice(indexToRemove, 1);
+    }
+
+    console.log(goods);
+    trNode.remove();
+  }
+});
 
 const goods = [
     {
