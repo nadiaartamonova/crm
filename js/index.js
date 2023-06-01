@@ -8,9 +8,17 @@ const modalDiscountInput = document.querySelector('.modal__input_discount');
 const overlay = document.querySelector('.overlay');
 const tbody = document.querySelector('.table__body');
 
-const modalBtnClose = overlay.querySelector('.modal__close');
-modalBtnClose.addEventListener('click', () => {
-  overlay.classList.remove('active');
+ const modalBtnClose = overlay.querySelector('.modal__close');
+// modalBtnClose.addEventListener('click', () => {
+//   overlay.classList.remove('active');
+// });
+
+overlay.addEventListener('click', (e) => {
+  const target = e.target;
+  console.log(e.target)
+  if(target === overlay || target.closest('.modal__close')){
+    overlay.classList.remove('active');
+  }           
 });
 
 const btnAddGoods = document.querySelector('.panel__add-goods');
@@ -18,9 +26,6 @@ btnAddGoods.addEventListener('click', () => {
   overlay.classList.add('active');
 });
 
-overlay.addEventListener('click', () => {
-  overlay.classList.remove('active');
-})
 
 const createRow = ({ elem }, index = 1) => {
     const { id, title, category, units, count, price } = elem;
