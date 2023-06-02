@@ -1,38 +1,92 @@
+import { generateId, calculateModalPrice } from "./helpers.js";
 'use strict';
 
-
-const modalHeading = document.querySelector('.modal__title');
 const modalForm = document.querySelector('.modal__form');
-const modalDiscountCheck = document.querySelector('.modal__checkbox');
-const modalDiscountInput = document.querySelector('.modal__input_discount');
+const modalTotalPrice = document.querySelector('.modal__total-price');
+const inputs = document.querySelectorAll('.modal input'); 
+modalTotalPrice.textContent = '$ 0.00';
+
 const overlay = document.querySelector('.overlay');
 const tbody = document.querySelector('.table__body');
+const btnAddGoods = document.querySelector('.panel__add-goods');
 
- const modalBtnClose = overlay.querySelector('.modal__close');
-// modalBtnClose.addEventListener('click', () => {
-//   overlay.classList.remove('active');
-// });
+inputs.forEach(input => {
+  input.addEventListener('focus', handleFocus);
+});
+
+function handleFocus() {
+  const count = parseInt(modalForm.count.value);
+  const price = parseInt(modalForm.price.value);
+  const discount = modalForm.discount.checked ? 1 - parseInt(modalForm.discount_count.value) / 100 : 1;
+  const modalPrice = calculateModalPrice(count, price, discount);
+  
+  if(modalPrice > 0){
+    modalTotalPrice.textContent = `$ ${modalPrice}`;
+  } else {
+    modalTotalPrice.textContent = '$ 0.00';
+  }
+}
+
+const totalPrice = () => {
+  const totalPriceText = document.querySelector('.cms__total-price');
+
+  const prices = document.querySelectorAll('.total__price_row');
+  const totalPrice = Array.from(prices).reduce((total, price) => {
+    const priceValue = parseFloat(price.textContent.replace('$', ''));
+    return total + priceValue;
+  }, 0);
+
+  totalPriceText.textContent = `$${totalPrice.toFixed(2)}`;
+};
+
+modalForm.discount.addEventListener('change', () => {
+  const discountInput = document.querySelector('.modal__input_discount');
+  if(modalForm.discount.checked) {
+    discountInput.disabled = false;
+    discountInput.required = true;
+  } else{
+    discountInput.value = '';
+    discountInput.required = false;
+    discountInput.disabled = true;
+    handleFocus();
+  }
+});
+
+modalForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const newProduct = Object.fromEntries(formData);
+  const newId = generateId();
+  newProduct.id = newId;
+  newProduct.title = newProduct.name;
+
+  const newRow = createRow(newProduct, rowCount() + 1);
+  addRow(tbody, newRow);
+  totalPrice();
+  modalForm.reset();
+  modalTotalPrice.textContent = '$ 0.00';
+  overlay.classList.remove('active');
+
+})
 
 overlay.addEventListener('click', (e) => {
   const target = e.target;
-  console.log(e.target)
   if(target === overlay || target.closest('.modal__close')){
     overlay.classList.remove('active');
   }           
 });
 
-const btnAddGoods = document.querySelector('.panel__add-goods');
 btnAddGoods.addEventListener('click', () => {
   overlay.classList.add('active');
 });
 
-
-const createRow = ({ elem }, index = 1) => {
+const createRow = ( elem , index = 1) => {
     const { id, title, category, units, count, price } = elem;
+
     return `
     <tr class="product">
         <td class="table__cell">${index}</td>
-        <td class="table__cell table__cell_left table__cell_name" data-id="24601654816512">
+        <td class="table__cell table__cell_left table__cell_name" data-id="${id}">
             <span class="table__cell-id">id: ${id}</span>
             ${title}
         </td>
@@ -40,7 +94,7 @@ const createRow = ({ elem }, index = 1) => {
         <td class="table__cell">${units}</td>
         <td class="table__cell">${count}</td>
         <td class="table__cell">$${price}</td>
-        <td class="table__cell">$${count * price}</td>
+        <td class="table__cell total__price_row">$${count * price}</td>
         <td class="table__cell table__cell_btn-wrapper">
         <button class="table__btn table__btn_pic"></button>
         <button class="table__btn table__btn_edit"></button>
@@ -49,22 +103,26 @@ const createRow = ({ elem }, index = 1) => {
     </tr>`
 }
 
-const renderGoods = (arr) => {
-    let html = '';
-    const rowCount = tbody.rows.length;
+const addRow = (tbody, row) => {
+  tbody.insertAdjacentHTML("beforeend", row);
+}
 
+const rowCount = () => {
+  return tbody.rows.length;
+}
+
+const init = (arr) => {
+    let html = '';
     arr.forEach((elem, index) => {
-        const newRow = createRow({elem}, rowCount + index + 1);
+        const newRow = createRow(elem, rowCount() + index + 1);
         html += newRow;
     })
-
-    tbody.insertAdjacentHTML("beforeend",html);
+    tbody.insertAdjacentHTML("beforeend", html);
+    totalPrice();
 }
 
 tbody.addEventListener('click', (e) => {
-  
   if(e.target.closest('.table__btn_del')){
-    console.log(goods);
     const trNode = e.target.parentNode.parentNode;
     
     const id = trNode.querySelector('.table__cell-id');
@@ -74,11 +132,12 @@ tbody.addEventListener('click', (e) => {
     if (indexToRemove !== -1) {
       goods.splice(indexToRemove, 1);
     }
-
     console.log(goods);
     trNode.remove();
+    totalPrice();
   }
 });
+
 
 const goods = [
     {
@@ -139,4 +198,4 @@ const goods = [
     }
   ]
 
-  console.log(renderGoods(goods));
+  console.log(init(goods));

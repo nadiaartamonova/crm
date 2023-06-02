@@ -9,7 +9,7 @@
   <link rel="preload" href="fonts/inter-v7-latin_cyrillic-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/inter-v7-latin_cyrillic-600.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/inter-v7-latin_cyrillic-700.woff2" as="font" type="font/woff2" crossorigin>
-  <script src="js/index.js" defer></script>
+  <script src="js/index.js" defer type="module"></script>
   <link rel="stylesheet" href="css/index.css">
   <title>CMS</title>
 </head>
@@ -59,7 +59,7 @@
                 <td class="table__cell">шт</td>
                 <td class="table__cell">5</td>
                 <td class="table__cell">$100</td>
-                <td class="table__cell">$500</td>
+                <td class="table__cell total__price_row">$500</td>
                 <td class="table__cell table__cell_btn-wrapper">
                   <button class="table__btn table__btn_pic"></button>
                   <button class="table__btn table__btn_edit"></button>
@@ -74,7 +74,7 @@
                 <td class="table__cell">шт</td>
                 <td class="table__cell">15</td>
                 <td class="table__cell">$1000</td>
-                <td class="table__cell">$15000</td>
+                <td class="table__cell total__price_row">$15000</td>
                 <td class="table__cell table__cell_btn-wrapper">
                   <button class="table__btn table__btn_pic"></button>
                   <button class="table__btn table__btn_edit"></button>
@@ -118,42 +118,42 @@
 
           <label class="modal__label modal__label_name" for="name">
             <span class="modal__text">Наименование</span>
-            <input class="modal__input" type="text" name="name" id="name">
+            <input class="modal__input" type="text" name="name" id="name" required>
           </label>
 
 
           <label class="modal__label modal__label_category" for="category">
             <span class="modal__text">Категория</span>
-            <input class="modal__input" type="text" name="category" id="category">
+            <input class="modal__input" type="text" name="category" id="category" required>
           </label>
 
           <label class="modal__label modal__label_description" for="description">
             <span class="modal__text">Описание</span>
-            <textarea class="modal__input modal__input_textarea" name="description" id="description"></textarea>
+            <textarea class="modal__input modal__input_textarea" name="description" id="description" required></textarea>
           </label>
 
           <label class="modal__label modal__label_units" for="units">
             <span class="modal__text">Единицы измерения</span>
-            <input class="modal__input" type="text" name="units" id="units">
+            <input class="modal__input" type="text" name="units" id="units" required>
           </label>
 
           <div class="modal__label modal__label_discount">
             <label class="modal__text" for="discount">Дисконт</label>
             <div class="modal__checkbox-wrapper">
               <input class="modal__checkbox" type="checkbox" name="discount" id="discount">
-              <input class="modal__input modal__input_discount" type="text" name="discount_count" disabled>
+              <input class="modal__input modal__input_discount" type="number" name="discount_count" disabled>
             </div>
           </div>
 
 
-          <label class="modal__label modal__label_count" for="count">
+          <label class="modal__label modal__label_count" for="count" >
             <span class="modal__text">Количество</span>
-            <input class="modal__input" type="text" name="count" id="count">
+            <input class="modal__input" type="number" name="count" id="count" required min="1">
           </label>
 
           <label class="modal__label modal__label_price" for="price">
             <span class="modal__text">Цена</span>
-            <input class="modal__input" type="text" name="price" id="price">
+            <input class="modal__input" type="number" name="price" id="price" required min="1">
           </label>
 
           <label tabindex="0" for="image" class="modal__label modal__label_file">Добавить изображение</label>
