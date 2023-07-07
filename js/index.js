@@ -1,7 +1,7 @@
 import { totalPrice } from "./modules/helpers.js";
 import { createTable, createBasketHeader } from './modules/createElements.js';
 import { setStorage } from './modules/storageControl.js';
-import { listControl, modalControl } from './modules/control.js';
+import { listControl, modalControl, pictureControl } from './modules/control.js';
 
 const goods = [
   {
@@ -76,6 +76,11 @@ const init = (arr) => {
   const btnAddGoods = document.querySelector('.panel__add-goods');
   modalControl(btnAddGoods, tbody);
   totalPrice();
+
+  const btnPicture = document.querySelector('.table__btn_pic');
+  pictureControl(btnPicture);
+
+
 }
 
 init(goods);

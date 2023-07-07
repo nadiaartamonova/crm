@@ -80,3 +80,18 @@ export const modalControl = (btnAddGoods, tbody) => {
 
 
 }
+
+export const pictureControl = (btnPic) => {
+    btnPic.addEventListener('click', () => {
+        const url = btnPic.getAttribute('data-pic');
+        const windowWidth = 800;
+        const windowHeight = 600;
+        const screenWidth = window.screen.width;
+        const screenHeight = window.screen.height;
+
+        const left = (screenWidth - windowWidth) / 2;
+        const top = (screenHeight - windowHeight) / 2;
+
+        window.open(url, "_blank", `width=${windowWidth},height=${windowHeight},left=${left},top=${top}`);
+    })
+}

@@ -53,7 +53,7 @@ const createRow = ( elem , index = 1) => {
         <td class="table__cell">$${price}</td>
         <td class="table__cell total__price_row">$${count * price}</td>
         <td class="table__cell table__cell_btn-wrapper">
-        <button class="table__btn table__btn_pic"></button>
+        <button class="table__btn table__btn_pic" data-pic="/crm/img/galaxy_universe_space_138271_800x600.jpg"></button>
         <button class="table__btn table__btn_edit"></button>
         <button class="table__btn table__btn_del"></button>
         </td>
